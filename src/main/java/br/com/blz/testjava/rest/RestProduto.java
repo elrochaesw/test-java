@@ -144,49 +144,5 @@ public class RestProduto {
 				 }
 			return produto;
 		}
-		/*
-		@GetMapping(path={"/loadJson"})
-		public void loadJson() throws Exception{
-			Produto json = null;
-			Produto produto = null;
-			List<Warehouses> lista = null;
-			Inventory inventory = null;
-	        try {
-        		Gson gson = new Gson();
-        		BufferedReader br = new BufferedReader(new FileReader("C:/DEV/test-java/src/main/resources/input.JSON"));
-        		json = gson.fromJson(br, Produto.class);
-        		inventory = json.getInventory();
-        		lista = inventory.getWarehouses();
-	        	
-			       Produto sku = repository.findBySku(json.getSku());
-			       if(sku == null){
-						for(int i = 0; i < lista.size(); i++){
-							Warehouses warehouses = new Warehouses();
-							warehouses.setLocality(lista.get(i).getLocality());
-							warehouses.setQuantity(lista.get(i).getQuantity());
-							warehouses.setType(lista.get(i).getType());
-							repository.saveAndFlush(warehouses);
-							lista.add(warehouses);
-						}
-				 		inventory = new Inventory();
-						inventory.setQuantity(0);
-						inventory.setWarehouses(lista);
-						lista = new ArrayList<Warehouses>();
-				    }
-					produto = new Produto();
-					produto.setSku(json.getSku());
-			        produto.setName(json.getName());
-			        produto.setInventory(inventory);
-			        produto.setMarketable(json.isMarketable());
-			        
-			        if(repository.findBySku(produto.getSku()) != null){
-			        	throw new Exception("######## [ ERRO: JÁ EXISTE UM PRODUTO COM O SKU INFORMADO ] ########");
-		        }
-		        else{
-		        	repository.save(produto);
-		        }
-			    } catch (FileNotFoundException e) {
-			    	e.printStackTrace();
-			}
-		}*/
+
 }
