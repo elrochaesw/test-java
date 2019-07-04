@@ -41,7 +41,7 @@ Com a seguinte representação de produto:
 }
 ```
 
-Crie endpoints para as seguintes ações:
+Crie endpoints para as seguintes ações: (os endpoints criados no arquivo Endpoints-criados.txt na raiz do projeto)
 
 - [ ] Criação de produto onde o payload será o json informado acima (exceto as propriedades **isMarketable** e **inventory.quantity**)
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,9 @@ import net.minidev.json.parser.ParseException;
 @EnableJpaRepositories(basePackageClasses = ProdutoRepository.class)
 @RequestMapping(path="/servicesREST/")
 public class RestProduto {
+	
+	@Value("${file.path:}")
+	private String path;
 	
 	@Autowired
 	private ProdutoRepository repository;
@@ -59,8 +63,8 @@ public class RestProduto {
 	}
 	
 	
-	 @GetMapping(path={"/create"})
-		public void create() throws Exception{
+	@GetMapping(path={"/create"})
+	public void create() throws Exception{
 		 
 		 Produto novoProduto = geraProduto();
 		 
@@ -72,8 +76,8 @@ public class RestProduto {
 		 }
 	 }
 		 
-	 @GetMapping(path={"/update/{sku}"})
-		public void edit(@PathVariable long sku) throws ParseException {
+	@GetMapping(path={"/update/{sku}"})
+	public void edit(@PathVariable long sku) throws ParseException {
 			Produto produto = null;
 			Produto updateProduto = null;
 			
@@ -109,13 +113,11 @@ public class RestProduto {
 		    List<Warehouses> lista = null;
 		    List<JSONObject> jsonLista = new ArrayList<JSONObject>();
 		    JSONParser parser = new JSONParser();
-		    try {
-		        try (FileReader f = new FileReader("C:/DEV/test-java/src/main/resources/input.JSON")) {
+	        	try (FileReader f = new FileReader(path)) {
 		            jsonObject = (JSONObject) parser.parse(f);
 		            inventoryObj = (JSONObject) jsonObject.get("inventory");
 		            jsonLista = (List<JSONObject>) inventoryObj.get("warehouses");
-		        }
-			
+		        
 			       lista = new ArrayList<Warehouses>();
 			       Produto sku = (Produto) repository.findBySku((int) jsonObject.get("sku"));
 			       if(sku == null){
@@ -127,7 +129,6 @@ public class RestProduto {
 							repository.saveAndFlush(warehouses);
 							lista.add(warehouses);
 						}
-						
 				 		inventory = new Inventory();
 						inventory.setQuantity(0);
 						inventory.setWarehouses(lista);
@@ -137,9 +138,55 @@ public class RestProduto {
 			        produto.setName((String) jsonObject.get("name"));
 			        produto.setInventory(inventory);
 			        produto.setMarketable((boolean) jsonObject.get("isMarketable"));
+		
 		    } catch (FileNotFoundException e) {
 		    } catch (IOException e) {
 				 }
 			return produto;
 		}
+		/*
+		@GetMapping(path={"/loadJson"})
+		public void loadJson() throws Exception{
+			Produto json = null;
+			Produto produto = null;
+			List<Warehouses> lista = null;
+			Inventory inventory = null;
+	        try {
+        		Gson gson = new Gson();
+        		BufferedReader br = new BufferedReader(new FileReader("C:/DEV/test-java/src/main/resources/input.JSON"));
+        		json = gson.fromJson(br, Produto.class);
+        		inventory = json.getInventory();
+        		lista = inventory.getWarehouses();
+	        	
+			       Produto sku = repository.findBySku(json.getSku());
+			       if(sku == null){
+						for(int i = 0; i < lista.size(); i++){
+							Warehouses warehouses = new Warehouses();
+							warehouses.setLocality(lista.get(i).getLocality());
+							warehouses.setQuantity(lista.get(i).getQuantity());
+							warehouses.setType(lista.get(i).getType());
+							repository.saveAndFlush(warehouses);
+							lista.add(warehouses);
+						}
+				 		inventory = new Inventory();
+						inventory.setQuantity(0);
+						inventory.setWarehouses(lista);
+						lista = new ArrayList<Warehouses>();
+				    }
+					produto = new Produto();
+					produto.setSku(json.getSku());
+			        produto.setName(json.getName());
+			        produto.setInventory(inventory);
+			        produto.setMarketable(json.isMarketable());
+			        
+			        if(repository.findBySku(produto.getSku()) != null){
+			        	throw new Exception("######## [ ERRO: JÁ EXISTE UM PRODUTO COM O SKU INFORMADO ] ########");
+		        }
+		        else{
+		        	repository.save(produto);
+		        }
+			    } catch (FileNotFoundException e) {
+			    	e.printStackTrace();
+			}
+		}*/
 }

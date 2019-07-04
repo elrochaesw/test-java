@@ -1,0 +1,20 @@
+server:
+   port: 8080
+file:
+   path: C:/DEV/test-java/src/main/resources/input.JSON
+spring:
+   profiles:
+      active: local
+jackson:
+   serialization:
+      wrap-root-value: true
+jpa:
+   hibernate:
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+   ddl-auto: update
+   show-sql: true
+datasource:
+   url: jdbc:hsqldb:mem:test
+   classname: org.hsqldb.jdbcDriver
+   username: sa
+   password:  

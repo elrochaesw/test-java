@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import net.minidev.json.JSONObject;
 /**
  * @author Evandro Lopes da Rocha (evandro.esw@gmail.com)
  * @date 13/06/2019.
@@ -30,7 +29,6 @@ public class Produto implements Serializable {
 	private long sku;
 	private String name;
 	private Inventory inventory;
-
 	private boolean isMarketable;
 	
 	public Produto(){

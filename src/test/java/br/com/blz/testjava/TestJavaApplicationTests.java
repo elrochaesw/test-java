@@ -1,6 +1,8 @@
 package br.com.blz.testjava;
 
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +22,13 @@ public class TestJavaApplicationTests {
 	 @Autowired
 	    private ProdutoRepository produtoRepository;
 	    
- /*   @Test
-    public void createUsers() {
+/*    @Test
+    public void createProduct() {
     	
     	Produto produto = new Produto();
-    	produto.setSku(43263);
+    	produto.setSku(43264);
     	produto.setName("LOREAL");
-    	produto.setInventory(0);
+    	produto.setInventory(null);
     	produto.setMarketable(true);
     	
     	produtoRepository.save(produto);
@@ -37,37 +39,34 @@ public class TestJavaApplicationTests {
         	System.out.println(str.getInventory());
         	System.out.println(str.isMarketable());
         }
-        
-        
-        
-//        assertThat(produtos.size()).isEqualTo(1);
-    }    
-*/
-/*    @Test
+
+    }  */  
+
+  /*  @Test
     public void deleteProduct() {
-    	Produto produto = produtoRepository.findById(4);
+    	Produto produto = produtoRepository.findBySku(43264);
     	if(produto != null){
     		produtoRepository.delete(produto.getId());
     	}
-    	System.out.println("O produto Id: [4] foi removido");
-    }*/
+    	System.out.println("O produto Id: [43264] foi removido");
+    }
     
-  /*  @Test
-    public void updateProduct() {
-    	Produto produto = produtoRepository.findById(3);
+    @Test
+    public void SaveOrUpdateProduct() {
+    	Produto produto = produtoRepository.findBySku(43264);
     	if(produto != null){
     		produto.setName("PRODUTO");
     		produtoRepository.save(produto);
-    		System.out.println("O produto Id: [2] foi atualizado");
+    		System.out.println("O produto Id: [43264] foi atualizado");
     	}else{
 			Produto novoProduto = new Produto();
-			novoProduto.setSku(43273);
+			novoProduto.setSku(43264);
 			novoProduto.setName("PRODUTO 10");
-			novoProduto.setInventory(0);
+			novoProduto.setInventory(null);
 			novoProduto.setMarketable(false);
     		produtoRepository.save(novoProduto);
-    		System.out.println("O produto Id: [3] foi atualizado");
+    		System.out.println("O produto Id: [43264] foi atualizado");
     	}
-    }*/
-    
+    }
+    */
 }
